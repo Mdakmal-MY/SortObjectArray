@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sorting Function</title>
+    <script>
+        // create a simple local like database using array of object
+        var userID = 1;
+        var userDB = [];
+        //storing data to the database function
+        function startData() {
+            var usernameField = document.getElementById("usernameField").value;
+            var userOccField = document.getElementById("userOccField").value;
+            user = { Id: this.userID, username: usernameField, useroccupation: userOccField };
+            //add each object to obejct array
+            userDB.push(user);
+            alert("add success " + user["Id"] + " " + user["username"] + " " + user["useroccupation"]);
+            addValues();
+        }
+        //adding data to tables row
+        function addValues() {
+            var text = "<tr><th>UserID</th><th>Username</th><th>UserOccupation</th></tr>";
+            autoIncrement();      
+                for(var i=0; i<userDB.length; i++){
+                    text += "<tr>";
+                    text += "<td>" + userDB[i].Id + "</td>";
+                    text += "<td>" + userDB[i].username+ "</td>";
+                    text += "<td>" + userDB[i].useroccupation+ "</td>";
+                    text += "</tr>"
+                }
+            document.getElementById("outputElement").innerHTML = text;     
+        }
+        //sorting function
+        function sortingValues(){
+            var indexs = document.getElementById("sortBy");
+            var sortBy = indexs.options[indexs.selectedIndex];
+            //viewing selected value 
+            console.log(sortBy);
+            //return true if value a are more than be same as return 1 = true and return -1 = false;
+            if(sortBy.value == "UserID"){
+                userDB.sort(function(a, b){
+                    if(a.Id > b.Id){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                });
+            }
+            else if(sortBy.value == "Username"){
+                userDB.sort(function(a, b){
+                    if(a.username > b.username){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                });
+            }
+            else if(sortBy.value == "UserOccupation"){
+                userDB.sort(function(a, b){
+                    if(a.useroccupation > b.useroccupation){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                });
+            }
+            reloadValues();
+        }
+        //reset table and creating new one
+        function reloadValues(){
+            var text = "<tr><th>UserID</th><th>Username</th><th>User Occupation</th></tr>";     
+                for(var i=0; i<userDB.length; i++){
+                    text += "<tr>";
+                    text += "<td>" + userDB[i].Id + "</td>";
+                    text += "<td>" + userDB[i].username+ "</td>";
+                    text += "<td>" + userDB[i].useroccupation+ "</td>";
+                    text += "</tr>"
+                }
+            document.getElementById("outputElement").innerHTML = text;   
+        }
+        //to autoincrement data
+        function autoIncrement(){
+            userID++;
+            userIdField.placeholder = userID;
+        }
+    </script>
+</head>
+<style>
+    fieldset {
+        background-color: #1d1d2c;
+        font-family: 'Calibri';
+        font-size: 14px;
+        width: 50%;
+        margin: auto;
+        color: white;
+        
+    }
+
+    #outputElement {
+        text-align: center;
+        width: 100%;
+        background-color: #292930;
+        border: 1px solid white;
+    
+    }
+    input[type=text],select{
+        padding: 6px 8px;
+    }
+    #submit{
+        background-color:#e40c2b;
+        border: 2px solid white;
+        padding: 8px 20px;
+        color: white;
+    }
+    #submit:hover{
+        background-color: white;
+        border:2px solid #e40c2b;
+        color: black;
+        cursor:pointer;
+    }    
+
+</style>
+
+<body>
+    <fieldset>
+        <table>
+            <tr>
+                <td><label>User id</label><input type="text" id="userIdField" placeholder="0" disabled></td>
+                <td><label>Username</label><input type="text" id="usernameField"></td>
+                <td><label>User Occupation</label><input type="text" id="userOccField"></td>
+                <td><label>Action</label><button id="submit" onclick="startData();">Add</button></td>
+            </tr>
+        </table>
+        <br>
+        <label>Sort By:</label>
+        <select id="sortBy" onchange="sortingValues();">
+            <option value="UserID">Userid</option>
+            <option value="Username">Username</option>
+            <option value="UserOccupation">User Occupation</option>
+        </select>
+        <br>
+        <br>
+        <table id="outputElement">
+        </table>
+    </fieldset>
+    <script>
+        //start up of the browser and bound the input value for id
+        initializeData();
+
+        function initializeData() {
+            userIdField.placeholder = userID;
+        }
+    </script>
+</body>
+
+</html>
